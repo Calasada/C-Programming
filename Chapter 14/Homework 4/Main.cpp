@@ -2,10 +2,6 @@
 #include <string>
 using namespace std;
 
-int main() { return 0; }
-
-#include <iostream>
-using namespace std;
 class clockType {
  public:
   void setTime(int, int, int);
@@ -17,9 +13,9 @@ class clockType {
   void incrementHours();
   bool equalTime(const clockType&) const;
 
-  friend clockType operator++(clockType c);  //++a
+  friend clockType operator++(clockType& c);  //++a
   // friend clockType operator --(clockType c); //--a
-  friend clockType operator++(clockType c, int i);  // a++
+  friend clockType operator++(clockType& c, int i);  // a++
   // friend clockType operator --(clockType c, int i); //a--
 
   friend bool operator<(clockType, clockType);
@@ -85,12 +81,12 @@ bool clockType::equalTime(const clockType& otherClock) const {
           sec == otherClock.sec);
 }
 
-clockType operator++(clockType c) {
+clockType operator++(clockType& c) {
   c.incrementSeconds();
   return c;
 }
 
-clockType operator++(clockType c, int i) {
+clockType operator++(clockType& c, int i) {
   clockType t = c;
   c.incrementSeconds();
   return t;
@@ -116,4 +112,23 @@ bool operator==(clockType c1, clockType c2) {
   c1.getSeconds(s1);
   c2.getSeconds(s2);
   return s1 == s2;
+}
+
+int main() {
+  clockType clock1, clock2;
+  clock1.setTime(0, 0, 15);
+  clock2.setTime(0, 0, 30);
+
+  clock1++.printTime();
+  cout << endl;
+  //clock1 is now 16 seconds, prints 15
+  (++clock1).printTime();
+  cout << endl;
+  //clock1 is now 17 seconds, prints 17
+
+  cout << ((clock1 < clock2) ? "true" : "false") << endl;
+  cout << ((clock1 > clock2) ? "true" : "false") << endl;
+  cout << ((clock1 == clock2) ? "true" : "false") << endl;
+
+  return 0;
 }
