@@ -2,12 +2,6 @@
 #include <string>
 using namespace std;
 
-int main() {
-    cout << "Hello World!";
-
-    return 0;
-}
-
 class rectangleType {
    public:
     void setDimension(double l, double w);
@@ -36,15 +30,20 @@ class rectangleType {
     rectangleType(double l, double w);
     //Constructor with parameters
     //Postcondition: length = l; width = w;
-    rectangleType operator +(rectangleType r);
-    rectangleType operator -(rectangleType r);
-    bool operator <(rectangleType r);
-    bool operator >(rectangleType r);
-    bool operator ==(rectangleType r);
-    friend rectangleType operator ++(rectangleType, int);
-    friend rectangleType operator --(rectangleType, int);
-    friend rectangleType operator ++(rectangleType);
-    friend rectangleType operator --(rectangleType);
+    // rectangleType operator ++(int); // a++
+    // rectangleType operator ++(); // ++a
+    // rectangleType operator +(rectangleType);
+    // rectangleType operator -(rectangleType);
+    // bool operator <(rectangleType);
+    // bool operator >(rectangleType);
+    // bool operator ==(rectangleType);
+    friend rectangleType operator ++(rectangleType&, int);
+    friend rectangleType operator ++(rectangleType&);
+    friend rectangleType operator +(rectangleType, rectangleType);
+    friend rectangleType operator -(rectangleType, rectangleType);
+    friend bool operator <(rectangleType, rectangleType);
+    friend bool operator >(rectangleType, rectangleType);
+    friend bool operator ==(rectangleType, rectangleType);
    private:
     double length;
     double width;
@@ -84,38 +83,118 @@ rectangleType::rectangleType() {
     width = 0;
 }
 
-rectangleType rectangleType::operator +(rectangleType r) {
-    double nl = this->getLength() + r.getLength();
-    double nw = this->getWidth() + r.getWidth();
-    rectangleType nr(nl, nw);
-    return nr;
-}
+//Members
+// // a++
+// rectangleType rectangleType::operator ++(int i) {
+//     rectangleType temp = *this;
+//     this->length++;
+//     this->width++;
+//     return temp;
+// }
 
-rectangleType rectangleType::operator -(rectangleType r) {
-    double nl = this->getLength() - r.getLength();
-    double nw = this->getWidth() - r.getWidth();
-    rectangleType nr(nl, nw);
-    return nr;
-}
+// // ++a
+// rectangleType rectangleType::operator ++() {
+//     this->length++;
+//     this->width++;
+//     return *this;
+// }
 
-bool rectangleType::operator >(rectangleType r) {
-    return this->area() > r.area();
-}
+// rectangleType rectangleType::operator +(rectangleType r) {
+//     double nl = this->getLength() + r.getLength();
+//     double nw = this->getWidth() + r.getWidth();
+//     rectangleType nr(nl, nw);
+//     return nr;
+// }
 
-bool rectangleType::operator <(rectangleType r) {
-    return this->area() < r.area();
-}
+// rectangleType rectangleType::operator -(rectangleType r) {
+//     double nl = this->getLength() - r.getLength();
+//     double nw = this->getWidth() - r.getWidth();
+//     rectangleType nr(nl, nw);
+//     return nr;
+// }
 
-bool rectangleType::operator ==(rectangleType r) {
-    return (this->getLength() == r.getLength()) && (this->getWidth() == r.getWidth());
-}
+// bool rectangleType::operator >(rectangleType r) {
+//     return this->area() > r.area();
+// }
 
+// bool rectangleType::operator <(rectangleType r) {
+//     return this->area() < r.area();
+// }
+
+// bool rectangleType::operator ==(rectangleType r) {
+//     return (this->getLength() == r.getLength()) && (this->getWidth() == r.getWidth());
+// }
+
+//Non-Members
+// a++
 rectangleType operator ++(rectangleType& r, int i) {
-    rectangleType oldr(r.getLength(), r.getWidth());
+    rectangleType temp = r;
+    r.length++;
+    r.width++;
+    return temp;
 }
-rectangleType operator --(rectangleType& r, int i) {
-}
+
+// ++a
 rectangleType operator ++(rectangleType& r) {
+    r.length++;
+    r.width++;
+    return r;
 }
-rectangleType operator --(rectangleType& r) {
+
+rectangleType operator +(rectangleType r1, rectangleType r2) {
+    double nl = r1.getLength() + r2.getLength();
+    double nw = r1.getWidth() + r2.getWidth();
+    rectangleType nr(nl, nw);
+    return nr;
+}
+
+rectangleType operator -(rectangleType r1, rectangleType r2) {
+    double nl = r1.getLength() - r2.getLength();
+    double nw = r1.getWidth() - r2.getWidth();
+    rectangleType nr(nl, nw);
+    return nr;
+}
+
+bool operator >(rectangleType r1, rectangleType r2) {
+    return r1.area() > r2.area();
+}
+
+bool operator <(rectangleType r1, rectangleType r2) {
+    return r1.area() < r2.area();
+}
+
+bool operator ==(rectangleType r1, rectangleType r2) {
+    return (r1.getLength() == r2.getLength()) && (r1.getWidth() == r2.getWidth());
+}
+
+int main() {
+    
+    rectangleType r1(3, 4), r2(6, 2);
+
+    cout << "r1: ";
+    r1.print();
+    cout << endl;
+    cout << "r2: ";
+    r2.print();
+    cout << endl;
+
+    cout << "r1++: ";
+    r1++.print();
+    //print r1, then increment
+    cout << endl;
+    cout << "++r1: ";
+    (++r1).print();
+    //increment r1, then print
+    cout << endl;
+
+    rectangleType r3 = r1 + r2;
+    cout << "r3 (r1 + r2): ";
+    r3.print();
+    cout << endl;
+
+    cout << "r2 < r3: " << (r2 < r3) << endl;
+    cout << "r2 > r1: " << (r2 > r1) << endl;
+    cout << "r1 == r3: " << (r1 == r3) << endl;
+
+    return 0;
 }
