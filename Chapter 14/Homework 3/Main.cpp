@@ -18,5 +18,9 @@ int main() {
     cout << "f1 * f2: " << (f1 * f2) << endl;
     cout << "f1 / f2: " << (f1 / f2) << endl;
 
+    cout << "f1 == f2: " << (f1 == f2) << endl;
+    cout << "f1 > f2: " << (f1 > f2) << endl;
+    cout << "f1 < f2: " << (f1 < f2) << endl;
+
     return 0;
 }
