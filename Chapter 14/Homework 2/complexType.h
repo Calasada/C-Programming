@@ -53,6 +53,13 @@ istream& operator>>(istream& isObject, complexType& complex) {
   isObject >> ch;                     // Step e
   return isObject;                    // return the istream object
 }
+ostream& operator<<(ostream& isObject, const complexType& complex) {
+  isObject << complex.realPart;       // Step b
+  isObject << "+";                     // Step c
+  isObject << complex.imaginaryPart;  // Step d
+  isObject << "i";                     // Step e
+  return isObject;                    // return the istream object
+}
 
 // Constructor
 complexType::complexType(double real, double imag) {
@@ -105,10 +112,11 @@ void complexType::getComplex(double& real, double& imag) const {
 // }
 
 complexType operator+(complexType& c1, complexType& c2) {
-  complexType temp;
-  temp.realPart = c1.realPart + c2.realPart;
-  temp.imaginaryPart = c1.imaginaryPart + c2.imaginaryPart;
-  return temp;
+  double r1, i1, r2, i2;
+  c1.getComplex(r1, i1);
+  c2.getComplex(r2, i2);
+  complexType nc(r1+r2, i1+i2);
+  return nc;
 }
 complexType operator-(complexType& c1, complexType& c2) {
   double r1, i1, r2, i2;
