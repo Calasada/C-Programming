@@ -6,6 +6,7 @@ using namespace std;
 
 template <class type>
 class node {
+public:
     type info;
     node<type> *link;
 };
@@ -19,11 +20,13 @@ public:
     node<type>* build(int);
     int length() const;
     void destroy();
-    type head();
-    type last();
+    type getHead();
+    type getLast();
     
     const linkedList<type>& operator=(const linkedList<type>&);
-    friend ostream& operator<<(ostream&, const linkedList<type>&);
+    
+    template <class type2>
+    friend ostream& operator<<(ostream&, const linkedList<type2>&);
 
     // virtual bool search(const type& searchItem) const = 0;
     // virtual bool insertFirst(const type& newItem) const = 0;
@@ -46,6 +49,9 @@ linkedList<type>::linkedList() {
 }
 
 template <class type>
+linkedList<type>::~linkedList() {}
+
+template <class type>
 node<type>* linkedList<type>::build(int l) {
     node<type>* newNode;
     head = NULL;
@@ -64,13 +70,16 @@ node<type>* linkedList<type>::build(int l) {
 
 template <class type>
 ostream& operator<<(ostream& out, const linkedList<type>& l) {
-    cout << "head -> ";
-    node<type> *next = head;
-    for(int i = 0; i < l; i++) {
-        cout << "[" << next->info << "] -> ";
+    out << "head -> ";
+    node<type> *next = l.head;
+    for(int i = 0; i < l.size; i++) {
+        out << "[" << next->info << "]";
+        if(i != l.size-1) {
+            out << " -> ";
+        }
         next = next->link;
     }
-    return 0;
+    return out;
 }
 
 #endif

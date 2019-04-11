@@ -4,13 +4,11 @@
 using namespace std;
 
 int main() {
+  linkedList<int> l;
 
-    linkedList<int> l;
+  l.build(3);
 
-    l.build(3);
+  cout << l;
 
-    cout << l;
-
-
-   return 0;
+  return 0;
 }
