@@ -22,7 +22,6 @@ class linkedList {
   void destroy();
   type getHead() const;
   type getLast() const;
-  void insertItem(int, const type& item);
   void deleteItem(int);
 
   const linkedList<type>& operator=(const linkedList<type>&);
@@ -34,6 +33,8 @@ class linkedList {
   virtual void insertFirst(const type& newItem) = 0;
   virtual void insertLast(const type& newItem) = 0;
   virtual void deleteNode(const type& deleteItem) = 0;
+  virtual void insertItem(int, const type& item) = 0;
+  
 
   node<type>* head;
   node<type>* last;
@@ -69,7 +70,6 @@ node<type>* linkedList<type>::build(int l) {
   size = l;
   return head;
 }
-
 template <class type>
 int linkedList<type>::length() const {
   return this->size;
@@ -98,24 +98,6 @@ type linkedList<type>::getHead() const {
 template <class type>
 type linkedList<type>::getLast() const {
   return this->last->info;
-}
-template <class type>
-void linkedList<type>::insertItem(int n, const type& item) {
-  node<type>* current = this->head;
-  node<type>* trail_current = NULL;
-  for (int i = 0; i < n; i++) {
-    trail_current = current;
-    current = current->link;
-  }
-  node<type>* newNode = new node<type>;
-  newNode->info = item;
-  newNode->link = current;
-  if(trail_current == NULL) {
-    this->head = newNode;
-  } else {
-    trail_current->link = newNode;
-  }
-  this->size++;
 }
 template <class type>
 void linkedList<type>::deleteItem(int n) {
@@ -160,6 +142,7 @@ class unorderedLinkedList : public linkedList<type> {
   void insertFirst(const type&);
   void insertLast(const type&);
   void deleteNode(const type&);
+  void insertItem(int, const type&);
 };
 
 template <class type>
@@ -215,5 +198,111 @@ void unorderedLinkedList<type>::deleteNode(const type& deleteItem) {
     current = current->link;
   }
 }
+
+template<class type>
+void unorderedLinkedList<type>::insertItem(int n, const type& item) {
+  node<type>* current = this->head;
+  node<type>* trail_current = NULL;
+  for (int i = 0; i < n; i++) {
+    trail_current = current;
+    current = current->link;
+  }
+  node<type>* newNode = new node<type>;
+  newNode->info = item;
+  newNode->link = current;
+  if(trail_current == NULL) {
+    this->head = newNode;
+  } else {
+    trail_current->link = newNode;
+  }
+  this->size++;
+}
+
+template <class type>
+class orderedLinkedList : public linkedList<type> {
+ public:
+  bool search(const type&) const;
+  void insert(const type&);
+  void deleteNode(const type&);
+private:
+  void insertFirst(const type&);
+  void insertLast(const type&);
+  void insertItem(int, const type&);
+};
+
+template <class type>
+bool orderedLinkedList<type>::search(const type& searchItem) const {
+  node<type>* current = this->head;
+  for (int i = 0; i < this->size; i++) {
+    if (current->info == searchItem) {
+      return true;
+    }
+    current = current->link;
+  }
+  return false;
+}
+
+template <class type>
+void orderedLinkedList<type>::insert(const type& item) {
+  if(this->isEmpty()) {
+    insertItem(0, item);
+    return;
+  }
+  node<type>* current = this->head;
+  for (int i = 0; i < this->size; i++) {
+    if (item < current->info) {
+      insertItem(i, item);
+      return;
+    }
+    current = current->link;
+  }
+}
+
+template <class type>
+void orderedLinkedList<type>::deleteNode(const type& deleteItem) {
+  node<type>* current = this->head;
+  node<type>* trail_current = this->head;
+  for (int i = 0; i < this->size; i++) {
+    if (current->info == deleteItem) {
+      if (i == 0) {
+        this->head = current->link;
+      } else {
+        trail_current->link = current->link;
+      }
+      this->size--;
+      return;
+    }
+    trail_current = current;
+    current = current->link;
+  }
+}
+
+template <class type>
+void orderedLinkedList<type>::insertFirst(const type& item) {
+  
+}
+template <class type>
+void orderedLinkedList<type>::insertLast(const type& item) {
+
+}
+template<class type>
+void orderedLinkedList<type>::insertItem(int n, const type& item) {
+  node<type>* current = this->head;
+  node<type>* trail_current = NULL;
+  for (int i = 0; i < n; i++) {
+    trail_current = current;
+    current = current->link;
+  }
+  node<type>* newNode = new node<type>;
+  newNode->info = item;
+  newNode->link = current;
+  if(trail_current == NULL) {
+    this->head = newNode;
+  } else {
+    trail_current->link = newNode;
+  }
+  this->size++;
+}
+
 
 #endif

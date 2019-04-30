@@ -4,21 +4,12 @@
 using namespace std;
 
 int main() {
-  unorderedLinkedList<int>* l = new unorderedLinkedList<int>;
+  orderedLinkedList<int>* l = new orderedLinkedList<int>;
 
-  l->build(5);
-  cout << *l << endl;
-  l->insertFirst(3);
-  cout << *l << endl;
-  l->insertFirst(2);
-  cout << *l << endl;
-  l->insertLast(5);
-  cout << *l << endl;
-  l->deleteNode(3);
-  cout << *l << endl;
-  l->insertItem(1, 5);
-  cout << *l << endl;
-  l->deleteItem(0);
+  l->insert(5);
+  l->insert(4);
+  l->insert(3);
+
   cout << *l;
 
   return 0;
