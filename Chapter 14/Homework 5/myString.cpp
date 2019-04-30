@@ -85,3 +85,47 @@ istream &operator>>(istream &isObject, newString &str) {
   str = temp;
   return isObject;
 }
+bool newString::output(int from, int to, ostream& out) {
+  if(from > to) {
+    out << "Index 1 > Index 2";
+    return false;
+  }
+  if(from >= length() || to >= length() || from < 0 || to < 0) {
+    out << "Index Out of Bounds";
+    return false;
+  }
+  for(int i = from; i <= to; i++) {
+    out << strPtr[i];
+  }
+  return true;
+}
+bool newString::search(int from, int to, char c, ostream& out) {
+  if(from > to) {
+    out << "Index 1 > Index 2";
+    return false;
+  }
+  if(from >= length() || to >= length() || from < 0 || to < 0) {
+    out << "Index Out of Bounds";
+    return false;
+  }
+  for(int i = from; i <= to; i++) {
+    if(c == strPtr[i]) {
+      return true;
+    };
+  }
+  return false;
+}
+bool newString::replace(int from, string s, ostream& out) {
+  if(from >= length() || from < 0) {
+    cout << "Index Out of Bounds";
+    return false;
+  }
+  if(from + (s.size()) > length()) {
+    out << "Replacing String too Large";
+    return false;
+  }
+  for(int i = 0; i < s.size(); i++) {
+    strPtr[i+from] = s[i];
+  }
+  return true;
+}

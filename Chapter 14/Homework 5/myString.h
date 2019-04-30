@@ -30,6 +30,10 @@ class newString
     friend bool operator>=(const newString &, const newString &);
     friend bool operator>(const newString &, const newString &);
 
+    bool output(int, int, ostream&);
+    bool search(int, int, char, ostream&);
+    bool replace(int, string, ostream&);
+
     newString operator+(const newString&) const;
     void operator+=(const newString&) const;
 
