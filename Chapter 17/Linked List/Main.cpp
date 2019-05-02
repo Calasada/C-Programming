@@ -10,7 +10,7 @@ int main() {
   l->insert(4);
   l->insert(3);
 
-  cout << *l;
+  cout << l->get(2);
 
   return 0;
 }

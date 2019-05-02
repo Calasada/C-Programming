@@ -22,6 +22,7 @@ class linkedList {
   void destroy();
   type getHead() const;
   type getLast() const;
+  type get(int) const;
   void deleteItem(int);
 
   const linkedList<type>& operator=(const linkedList<type>&);
@@ -98,6 +99,14 @@ type linkedList<type>::getHead() const {
 template <class type>
 type linkedList<type>::getLast() const {
   return this->last->info;
+}
+template <class type>
+type linkedList<type>::get(int n) const {
+	node<type> *current = this->head;
+	for (int i = 0; i < n; i++) {
+		current = current->link;
+	}
+	return current->info;
 }
 template <class type>
 void linkedList<type>::deleteItem(int n) {
