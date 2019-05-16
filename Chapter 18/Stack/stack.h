@@ -9,7 +9,8 @@ public:
     stack();
     ~stack();
     void push(const type&);
-    void pop();
+    type pop();
+    type top();
 
     template<class type2>
     friend ostream& operator<<(ostream&, const stack<type2>&);
@@ -34,8 +35,15 @@ void stack<type>::push(const type& newInfo) {
 }
 
 template<class type>
-void stack<type>::pop() {
+type stack<type>::pop() {
+    type temp = list->head->info;
     list->deleteItem(0);
+    return temp;
+}
+
+template<class type>
+type stack<type>::top() {
+    return list->head->info;
 }
 
 template<class type>
