@@ -29,7 +29,6 @@ class linkedList {
   void deleteAll(type t);
   void printBackward(ostream& out = cout);
   void subLists(int, linkedList<type>*, linkedList<type>*);
-  void merge(linkedList<type>&);
 
   const linkedList<type>& operator=(const linkedList<type>&);
 
@@ -171,14 +170,6 @@ void linkedList<type>::subLists(int n, linkedList<type>* list_1, linkedList<type
   }
   for(int i = n; i < length(); i++) {
     list_2->insertLast(get(i));
-  }
-}
-
-template <class type>
-void linkedList<type>::merge(linkedList<type>& l) {
-  assert(!l.isEmpty());
-  for(int i = 0; i < l.length(); i++) {
-    insertLast(l.get(i));
   }
 }
 

@@ -5,12 +5,15 @@ using namespace std;
 
 int main() {
 
-  stack<int> *s = new stack<int>;
+  stack<int> s;
 
-  s->push(5);
-  s->pop();
+  s.push(5);
+  cout << s.pop() << endl;
 
-  cout << *s;
+  s.push(4);
+  cout << s.top() << endl;
+
+  cout << s;
 
   return 0;
 }

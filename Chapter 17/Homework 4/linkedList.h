@@ -2,7 +2,6 @@
 #define LINKEDLIST_H
 
 #include <iostream>
-#include <cassert>
 using namespace std;
 
 template <class type>
@@ -27,9 +26,6 @@ class linkedList {
   void deleteItem(int);
   void deleteLowest();
   void deleteAll(type t);
-  void printBackward(ostream& out = cout);
-  void subLists(int, linkedList<type>*, linkedList<type>*);
-  void merge(linkedList<type>&);
 
   const linkedList<type>& operator=(const linkedList<type>&);
 
@@ -156,31 +152,6 @@ void linkedList<type>::deleteAll(type t) {
     }
   }
 }
-template <class type>
-void linkedList<type>::printBackward(ostream& out) {
-  for(int i = size - 1; i >= 0; i--) {
-    out << "[" << get(i) << "] <- ";
-  }
-  out << "head";
-}
-template <class type>
-void linkedList<type>::subLists(int n, linkedList<type>* list_1, linkedList<type>* list_2) {
-  assert(n >= 0 && n < length() && list_1->isEmpty() && list_2->isEmpty());
-  for(int i = 0; i < n; i++) {
-    list_1->insertLast(get(i));
-  }
-  for(int i = n; i < length(); i++) {
-    list_2->insertLast(get(i));
-  }
-}
-
-template <class type>
-void linkedList<type>::merge(linkedList<type>& l) {
-  assert(!l.isEmpty());
-  for(int i = 0; i < l.length(); i++) {
-    insertLast(l.get(i));
-  }
-}
 
 template <class type>
 ostream& operator<<(ostream& out, const linkedList<type>& l) {
@@ -231,10 +202,6 @@ void unorderedLinkedList<type>::insertFirst(const type& firstItem) {
 }
 template <class type>
 void unorderedLinkedList<type>::insertLast(const type& lastItem) {
-  if(this->size == 0) {
-    insertFirst(lastItem);
-    return;
-  }
   node<type>* current = this->head;
   node<type>* trail_current = NULL;
   for (int i = 0; i < this->size; i++) {

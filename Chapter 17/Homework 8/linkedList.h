@@ -372,5 +372,133 @@ void orderedLinkedList<type>::insertItem(int n, const type& item) {
   this->size++;
 }
 
+template <class type>
+class circularLinkedList {
+public:
+  circularLinkedList();
+  ~circularLinkedList();
+  bool isEmpty() const;
+  int length() const;
+  type get(int, ostream& out = cout) const;
+  bool search(const type&);
+  void insertItem(const type&);
+  void deleteItem(int n);
+
+  template<class type2>
+  friend ostream& operator<<(ostream&, const circularLinkedList<type2>&);
+
+private:
+  node<type>* head;
+  int size;
+
+};
+
+template <class type>
+circularLinkedList<type>::circularLinkedList() {
+  this->size = 0;
+  head = NULL;
+}
+
+template <class type>
+circularLinkedList<type>::~circularLinkedList() {
+  node<type>* current = this->head;
+  node<type>* trail_current = NULL;
+  for (int i = 0; i < this->size; i++) {
+    trail_current = current;
+    current = current->link;
+    delete trail_current;
+  }
+  this->head = NULL;
+  this->size = 0;
+}
+
+template <class type>
+bool circularLinkedList<type>::isEmpty() const {
+  return size == 0;
+}
+
+template <class type>
+int circularLinkedList<type>::length() const {
+  return this->size;
+}
+
+template <class type>
+type circularLinkedList<type>::get(int n, ostream& out) const {
+  if(n < 0 || n >= size) { 
+    out << "Index out of Bounds in get(" << n << ")";
+    return 0;
+  }
+	node<type> *current = this->head;
+	for (int i = 0; i < n; i++) {
+		current = current->link;
+	}
+	return current->info;
+}
+
+template <class type>
+bool circularLinkedList<type>::search(const type& t) {
+  for(int i = 0; i < length(); i++) {
+    if(get(i) == t) {
+      return true;
+    }
+  }
+  return false;
+}
+
+template <class type>
+void circularLinkedList<type>::insertItem(const type& t) {
+  node<type>* temp = this->head;
+  this->head = new node<type>;
+  this->head->info = t;
+  this->head->link = temp;
+  this->size++;
+  node<type>* current = this->head;
+  for(int i = 0; i < length() - 1; i++) {
+    current = current->link;
+  }
+  current->link = this->head;
+}
+
+template <class type>
+void circularLinkedList<type>::deleteItem(int n) {
+  assert(n >= 0 && n < length());
+  if(n == 0) {
+    node<type>* temp = head->link;
+    delete head;
+    head = temp;
+    this->size--;
+    node<type>* current = this->head;
+    for(int i = 0; i < length() - 1; i++) {
+      current = current->link;
+    }
+    current->link = this->head;
+    return;
+  }
+  node<type>* current = this->head;
+  node<type>* trail_current = this->head;
+  for (int i = 0; i < n; i++) {
+    trail_current = current;
+    current = current->link;
+  }
+  node<type>* temp = current->link;
+  delete current;
+  trail_current->link = temp;
+  this->size--;
+}
+
+template <class type>
+ostream& operator<<(ostream& out, const circularLinkedList<type>& l) {
+  out << "head -> ";
+  node<type>* next = l.head;
+  if(next == NULL) {
+    out << "NULL";
+  }
+  for (int i = 0; i < l.size; i++) {
+    out << "[" << (next->info) << "]" << " -> ";
+    next = next->link;
+  }
+  return out;
+}
+
 
 #endif
